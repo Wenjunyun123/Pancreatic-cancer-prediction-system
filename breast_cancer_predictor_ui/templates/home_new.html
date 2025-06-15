@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+{% extends 'base.html' %}
+
+{% block title %}乳腺癌预测系统 - 首页{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- 主横幅 -->
+    <div class="row align-items-center py-5">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+            <h1 class="display-4 fw-bold mb-4">乳腺癌预测系统</h1>
+            <p class="fs-5 mb-4">利用先进的人工智能和机器学习技术，帮助医疗专业人员快速、准确地预测乳腺肿瘤的良恶性，准确率达到95%以上。</p>
+            <div class="d-grid gap-2 d-md-flex">
+                {% if session.user_id %}
+                    <a href="/predict-form" class="btn btn-primary btn-lg px-4 me-md-2">开始预测</a>
+                    <a href="/profile" class="btn btn-outline-primary btn-lg px-4">个人中心</a>
+                {% else %}
+                    <a href="/login" class="btn btn-primary btn-lg px-4 me-md-2">登录使用</a>
+                    <a href="/register" class="btn btn-outline-primary btn-lg px-4">免费注册</a>
+                {% endif %}
+                <a href="/params-info" class="btn btn-outline-secondary btn-lg px-4">了解详情</a>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <img src="{{ url_for('static', filename='images/homepage1.png') }}" alt="乳腺癌预测" class="img-fluid rounded shadow">
+        </div>
+    </div>
+
+    <!-- 分隔线 -->
+    <hr class="my-5">
+
+    <!-- 信息卡片 -->
+    <div class="row mb-5">
+        <div class="col-md-4 mb-4 mb-md-0">
+            <div class="card h-100 feature-card">
+                <div class="icon">
+                    <i class="fas fa-microscope"></i>
+                </div>
+                <h5>什么是乳腺癌？</h5>
+                <p>乳腺癌是起源于乳腺组织的癌症。与其他癌症一样，乳腺癌可以侵入并生长到乳腺周围的组织中。它还可以转移到身体的其他部位，形成新的肿瘤，这个过程称为转移。</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4 mb-md-0">
+            <div class="card h-100 feature-card">
+                <div class="icon">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <h5>谁会得乳腺癌？</h5>
+                <p>乳腺癌是女性癌症死亡的第二大原因（仅次于肺癌）。如今，大约每8位女性（12%）一生中会患上乳腺癌。早期诊断和治疗对提高生存率至关重要。</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 feature-card">
+                <div class="icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <h5>乳腺癌的症状</h5>
+                <ul class="ps-3">
+                    <li>乳房肿块，可能小如豌豆</li>
+                    <li>乳房大小、形状或轮廓的变化</li>
+                    <li>乳头的血性或清澈液体分泌物</li>
+                    <li>乳房或乳头皮肤发红</li>
+                    <li>与任何一侧乳房其他区域明显不同的区域</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 肿瘤类型说明 -->
+    <div class="row mb-5">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <div class="info-card benign">
+                <h4 class="mb-3"><i class="fas fa-check-circle me-2"></i> 良性肿瘤</h4>
+                <p>良性肿瘤不是癌症。它们不会侵入邻近组织或扩散到身体的其他部位。通常，良性肿瘤可以被移除，很少会复发。</p>
+                <p>由于良性肿瘤无害，医生可能会选择不去除肿块。如果您感到不适、刺激或压力，请告知您的医生，以便她可以为您计划将其移除并改善您的舒适度。</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="info-card malignant">
+                <h4 class="mb-3"><i class="fas fa-exclamation-triangle me-2"></i> 恶性肿瘤</h4>
+                <p>恶性肿瘤是癌症，具有侵袭性，因为它们会侵入并损害周围组织。它们可以通过淋巴系统或血液扩散到身体其他部位。</p>
+                <p>当怀疑肿瘤是恶性时，医生会进行活检以确定肿瘤的严重程度或侵袭性。早期发现和治疗对提高治愈率和生存率至关重要。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 项目功能 -->
+    <div class="row mb-5">
+        <div class="col-lg-5 mb-4 mb-lg-0">
+            <img src="{{ url_for('static', filename='images/homepage3.png') }}" alt="系统预测流程" class="img-fluid rounded shadow">
+        </div>
+        <div class="col-lg-7">
+            <h3 class="mb-4">本系统如何帮助诊断？</h3>
+            <p class="mb-4">我们的乳腺癌预测系统利用先进的随机森林算法，通过分析30个关键医学参数，帮助医疗专业人员快速、准确地预测乳腺肿瘤的良恶性。</p>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="d-flex">
+                        <div class="me-3 text-primary">
+                            <i class="fas fa-chart-line fa-2x"></i>
+                        </div>
+                        <div>
+                            <h5>高准确率</h5>
+                            <p>基于大量临床数据训练，预测准确率达95%以上</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="d-flex">
+                        <div class="me-3 text-primary">
+                            <i class="fas fa-tachometer-alt fa-2x"></i>
+                        </div>
+                        <div>
+                            <h5>快速结果</h5>
+                            <p>即时处理，秒级完成预测分析</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="d-flex">
+                        <div class="me-3 text-primary">
+                            <i class="fas fa-laptop-medical fa-2x"></i>
+                        </div>
+                        <div>
+                            <h5>易于使用</h5>
+                            <p>直观的界面设计，简化参数输入过程</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="d-flex">
+                        <div class="me-3 text-primary">
+                            <i class="fas fa-info-circle fa-2x"></i>
+                        </div>
+                        <div>
+                            <h5>详细解释</h5>
+                            <p>提供参数含义解释和结果可视化分析</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                {% if session.user_id %}
+                    <a href="/predict-form" class="btn btn-primary">立即开始预测</a>
+                {% else %}
+                    <a href="/login" class="btn btn-primary">登录后开始预测</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- 号召行动 -->
+    <div class="bg-light p-5 rounded text-center mb-5">
+        {% if session.user_id %}
+            <h2 class="mb-4">欢迎回来，{{ session.full_name or session.username }}！</h2>
+            <p class="lead mb-4">输入30个医学参数，系统将即时为您提供预测结果和分析报告。</p>
+            <a href="/predict-form" class="btn btn-primary btn-lg px-5 me-3">开始预测</a>
+            <a href="/profile" class="btn btn-outline-primary btn-lg px-5">个人中心</a>
+        {% else %}
+            <h2 class="mb-4">准备好开始使用了吗？</h2>
+            <p class="lead mb-4">注册账户后，您可以使用预测功能并保存历史记录。</p>
+            <a href="/register" class="btn btn-primary btn-lg px-5 me-3">免费注册</a>
+            <a href="/login" class="btn btn-outline-primary btn-lg px-5">立即登录</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

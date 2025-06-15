@@ -1,0 +1,304 @@
+/* 全局样式 */
+:root {
+    --primary-color: #3f80ea;
+    --secondary-color: #5bc0de;
+    --accent-color: #ff9b9b;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --benign-color: #6bd098;
+    --malignant-color: #ff8d85;
+    --hover-color: #e9ecef;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    color: #444;
+    background-color: #fcfcfc;
+    line-height: 1.6;
+}
+
+/* 导航栏 */
+.navbar {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 700;
+}
+
+.nav-link {
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    transform: translateY(-2px);
+}
+
+/* 卡片样式 */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    font-weight: 700;
+    background-color: #fff;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* 按钮样式 */
+.btn {
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #2e6ad1;
+    border-color: #2e6ad1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(46, 106, 209, 0.3);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+/* 表单样式 */
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    padding: 10px 15px;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(63, 128, 234, 0.25);
+    border-color: var(--primary-color);
+}
+
+.form-label {
+    font-weight: 600;
+    color: #555;
+}
+
+/* 步骤导航 */
+.steps-container {
+    margin-bottom: 2rem;
+}
+
+.step-item {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.step-item.active {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 5px 15px rgba(63, 128, 234, 0.3);
+}
+
+.step-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 参数分组样式 */
+.param-group {
+    display: none;
+}
+
+.param-group.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+/* 显示结果样式 */
+.result-box {
+    text-align: center;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.result-benign {
+    background-color: var(--benign-color);
+    color: white;
+}
+
+.result-malignant {
+    background-color: var(--malignant-color);
+    color: white;
+}
+
+.probability-bar {
+    height: 30px;
+    border-radius: 15px;
+    background-color: #e9ecef;
+    margin: 1rem 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.probability-value {
+    height: 100%;
+    transition: width 1s ease;
+    border-radius: 15px;
+}
+
+.probability-value.benign {
+    background-color: var(--benign-color);
+}
+
+.probability-value.malignant {
+    background-color: var(--malignant-color);
+}
+
+.probability-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #333;
+    font-weight: 700;
+}
+
+/* 特征信息卡片 */
+.feature-card {
+    height: 100%;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.feature-card .icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.feature-card h5 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+/* 良性/恶性信息卡片 */
+.info-card {
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+.info-card.benign {
+    background-color: rgba(107, 208, 152, 0.1);
+    border-left: 5px solid var(--benign-color);
+}
+
+.info-card.malignant {
+    background-color: rgba(255, 141, 133, 0.1);
+    border-left: 5px solid var(--malignant-color);
+}
+
+/* 回到顶部按钮 */
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 40px;
+    background-color: var(--primary-color);
+    color: white;
+    z-index: 99;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.back-to-top i {
+    line-height: 0;
+}
+
+/* 动画 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 路径导航 */
+.breadcrumb {
+    background-color: transparent;
+    margin-bottom: 2rem;
+}
+
+/* 参数提示框 */
+.tooltip-icon {
+    color: var(--primary-color);
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+/* 加载动画 */
+.loader {
+    border: 5px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 5px solid var(--primary-color);
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .navbar-brand span {
+        display: none;
+    }
+    
+    .card {
+        margin-bottom: 20px;
+    }
+    
+    .step-item {
+        margin-bottom: 10px;
+    }
+}

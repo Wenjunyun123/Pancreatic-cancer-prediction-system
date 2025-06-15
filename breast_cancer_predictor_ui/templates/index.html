@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+{% extends 'base.html' %}
+
+{% block title %}乳腺癌预测系统 - 首页{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- 主横幅 -->
+    <div class="row align-items-center py-5">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+            <h1 class="display-4 fw-bold mb-4">乳腺癌预测系统</h1>
+            <p class="fs-5 mb-4">利用先进的人工智能和机器学习技术，帮助医疗专业人员快速、准确地预测乳腺肿瘤的良恶性，准确率达到95%以上。</p>
+            <div class="d-grid gap-2 d-md-flex">
+                <a href="/predict-form" class="btn btn-primary btn-lg px-4 me-md-2">开始预测</a>
+                <a href="/params-info" class="btn btn-outline-secondary btn-lg px-4">了解详情</a>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <img src="{{ url_for('static', filename='images/homepage1.png') }}" alt="乳腺癌预测" class="img-fluid rounded shadow">
+        </div>
+    </div>
+
+    <!-- 分隔线 -->
+    <hr class="my-5">
+
+    <!-- 信息卡片 -->
+    <div class="row mb-5">
+        <div class="col-md-4 mb-4 mb-md-0">
+            <div class="card h-100 feature-card">
+                <div class="icon">
+                    <i class="fas fa-microscope"></i>
+                </div>
+                <h5>什么是乳腺癌？</h5>
+                <p>乳腺癌是起源于乳腺组织的癌症。与其他癌症一样，乳腺癌可以侵入并生长到乳腺周围的组织中。它还可以转移到身体的其他部位，形成新的肿瘤，这个过程称为转移。</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4 mb-md-0">
+            <div class="card h-100 feature-card">
+                <div class="icon">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <h5>谁会得乳腺癌？</h5>
+                <p>乳腺癌是女性癌症死亡的第二大原因（仅次于肺癌）。如今，大约每8位女性（12%）一生中会患上乳腺癌。早期诊断和治疗对提高生存率至关重要。</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 feature-card">
+                <div class="icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <h5>乳腺癌的症状</h5>
+                <ul class="ps-3">
+                    <li>乳房肿块，可能小如豌豆</li>
+                    <li>乳房大小、形状或轮廓的变化</li>
+                    <li>乳头的血性或清澈液体分泌物</li>
+                    <li>乳房或乳头皮肤发红</li>
+                    <li>与任何一侧乳房其他区域明显不同的区域</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 肿瘤类型说明 -->
+    <div class="row mb-5">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <div class="info-card benign">
+                <h4 class="mb-3"><i class="fas fa-check-circle me-2"></i> 良性肿瘤</h4>
+                <p>良性肿瘤不是癌症。它们不会侵入邻近组织或扩散到身体的其他部位。通常，良性肿瘤可以被移除，很少会复发。</p>
+                <p>由于良性肿瘤无害，医生可能会选择不去除肿块。如果您感到不适、刺激或压力，请告知您的医生，以便她可以为您计划将其移除并改善您的舒适度。</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="info-card malignant">
+                <h4 class="mb-3"><i class="fas fa-exclamation-triangle me-2"></i> 恶性肿瘤</h4>
+                <p>恶性肿瘤是癌症，具有侵袭性，因为它们会侵入并损害周围组织。它们可以通过淋巴系统或血液扩散到身体其他部位。</p>
+                <p>当怀疑肿瘤是恶性时，医生会进行活检以确定肿瘤的严重程度或侵袭性。早期发现和治疗对提高治愈率和生存率至关重要。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 项目功能 -->
+    <div class="row mb-5">
+        <div class="col-lg-5 mb-4 mb-lg-0">
+            <img src="{{ url_for('static', filename='images/homepage3.png') }}" alt="系统预测流程" class="img-fluid rounded shadow">
+        </div>
+        <div class="col-lg-7">
+            <h3 class="mb-4">本系统如何帮助诊断？</h3>
+            <p class="mb-4">我们的乳腺癌预测系统利用先进的随机森林算法，通过分析30个关键医学参数，帮助医疗专业人员快速、准确地预测乳腺肿瘤的良恶性。</p>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="d-flex">
+                        <div class="me-3 text-primary">
+                            <i class="fas fa-chart-line fa-2x"></i>
+                        </div>
+                        <div>
+                            <h5>高准确率</h5>
+                            <p>基于大量临床数据训练，预测准确率达95%以上</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="d-flex">
+                        <div class="me-3 text-primary">
+                            <i class="fas fa-tachometer-alt fa-2x"></i>
+                        </div>
+                        <div>
+                            <h5>快速结果</h5>
+                            <p>即时处理，秒级完成预测分析</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="d-flex">
+                        <div class="me-3 text-primary">
+                            <i class="fas fa-laptop-medical fa-2x"></i>
+                        </div>
+                        <div>
+                            <h5>易于使用</h5>
+                            <p>直观的界面设计，简化参数输入过程</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="d-flex">
+                        <div class="me-3 text-primary">
+                            <i class="fas fa-info-circle fa-2x"></i>
+                        </div>
+                        <div>
+                            <h5>详细解释</h5>
+                            <p>提供参数含义解释和结果可视化分析</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <a href="/predict-form" class="btn btn-primary">立即开始预测</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 号召行动 -->
+    <div class="bg-light p-5 rounded text-center mb-5">
+        <h2 class="mb-4">准备好开始使用了吗？</h2>
+        <p class="lead mb-4">输入30个医学参数，系统将即时为您提供预测结果和分析报告。</p>
+        <a href="/predict-form" class="btn btn-primary btn-lg px-5">开始预测</a>
+    </div>
+</div>
+{% endblock %}
+<div id="minimax-floating-ball">
+  <div class="minimax-ball-content">
+    <div class="minimax-logo-wave"></div>
+    <span class="minimax-ball-text">Created by MiniMax Agent</span>
+  </div>
+  <div class="minimax-close-icon">&times;</div>
+</div>
+<style>
+  #minimax-floating-ball {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 12px;
+    background: #222222;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    color: #F8F8F8;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    z-index: 9999;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  
+  #minimax-floating-ball:hover {
+    transform: translateY(-2px);
+    background: #383838;
+  }
+  
+  .minimax-ball-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .minimax-logo-wave {
+    width: 26px;
+    height: 22px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='22' viewBox='0 0 26 22' fill='none'%3E%3Cg clip-path='url(%23clip0_3442_102412)'%3E%3Cpath d='M12.8405 14.6775C12.8405 14.9897 13.0932 15.2424 13.4055 15.2424C13.7178 15.2424 13.9705 14.9897 13.9705 14.6775V2.98254C13.9705 1.88957 13.0809 1 11.9879 1C10.895 1 10.0054 1.88957 10.0054 2.98254V11.566V17.1068C10.0054 17.5773 9.62327 17.9594 9.1528 17.9594C8.68233 17.9594 8.30021 17.5773 8.30021 17.1068V8.04469C8.30021 6.95172 7.41063 6.06215 6.31767 6.06215C5.22471 6.06215 4.33513 6.95172 4.33513 8.04469V11.8855C4.33513 12.3559 3.953 12.7381 3.48254 12.7381C3.01207 12.7381 2.62994 12.3559 2.62994 11.8855V10.4936C2.62994 10.1813 2.37725 9.92861 2.06497 9.92861C1.7527 9.92861 1.5 10.1813 1.5 10.4936V11.8855C1.5 12.9784 2.38957 13.868 3.48254 13.868C4.5755 13.868 5.46508 12.9784 5.46508 11.8855V8.04469C5.46508 7.57422 5.8472 7.19209 6.31767 7.19209C6.78814 7.19209 7.17026 7.57422 7.17026 8.04469V17.1068C7.17026 18.1998 8.05984 19.0894 9.1528 19.0894C10.2458 19.0894 11.1353 18.1998 11.1353 17.1068V2.98254C11.1353 2.51207 11.5175 2.12994 11.9879 2.12994C12.4584 2.12994 12.8405 2.51207 12.8405 2.98254V14.6775Z' fill='%23F8F8F8'/%3E%3Cpath d='M23.3278 6.06215C22.2348 6.06215 21.3452 6.95172 21.3452 8.04469V15.6143C21.3452 16.0847 20.9631 16.4669 20.4926 16.4669C20.0222 16.4669 19.6401 16.0847 19.6401 15.6143V2.98254C19.6401 1.88957 18.7505 1 17.6575 1C16.5645 1 15.675 1.88957 15.675 2.98254V19.0175C15.675 19.4879 15.2928 19.8701 14.8224 19.8701C14.3519 19.8701 13.9698 19.4879 13.9698 19.0175V17.0329C13.9698 16.7206 13.7171 16.4679 13.4048 16.4679C13.0925 16.4679 12.8398 16.7206 12.8398 17.0329V19.0175C12.8398 20.1104 13.7294 21 14.8224 21C15.9153 21 16.8049 20.1104 16.8049 19.0175V2.98254C16.8049 2.51207 17.187 2.12994 17.6575 2.12994C18.128 2.12994 18.5101 2.51207 18.5101 2.98254V15.6143C18.5101 16.7072 19.3997 17.5968 20.4926 17.5968C21.5856 17.5968 22.4752 16.7072 22.4752 15.6143V8.04469C22.4752 7.57422 22.8573 7.19209 23.3278 7.19209C23.7982 7.19209 24.1804 7.57422 24.1804 8.04469V14.6775C24.1804 14.9897 24.4331 15.2424 24.7453 15.2424C25.0576 15.2424 25.3103 14.9897 25.3103 14.6775V8.04469C25.3103 6.95172 24.4207 6.06215 23.3278 6.06215Z' fill='%23F8F8F8'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_3442_102412'%3E%3Crect width='25' height='22' fill='white' transform='translate(0.5)'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  
+  .minimax-ball-text {
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  
+  .minimax-close-icon {
+    margin-left: 8px;
+    font-size: 16px;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+  }
+  
+  .minimax-close-icon:hover {
+    opacity: 1;
+  }
+</style>
+<script>
+  // Add simple animation when the page loads
+  document.addEventListener('DOMContentLoaded', function() {
+    const ball = document.getElementById('minimax-floating-ball');
+    ball.style.opacity = '0';
+    ball.style.transform = 'translateY(20px)';
+    
+    setTimeout(() => {
+      ball.style.opacity = '1';
+      ball.style.transform = 'translateY(0)';
+    }, 500);
+    
+    // Handle logo click
+    const ballContent = ball.querySelector('.minimax-ball-content');
+    ballContent.addEventListener('click', function(e) {
+      e.stopPropagation();
+      window.open('https://agent.minimax.io/agent', '_blank');
+      ball.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        ball.style.transform = 'scale(1)';
+      }, 100);
+    });
+    
+    // Handle close button click
+    const closeIcon = ball.querySelector('.minimax-close-icon');
+    closeIcon.addEventListener('click', function(e) {
+      e.stopPropagation();
+      ball.style.opacity = '0';
+      ball.style.transform = 'translateY(20px)';
+      
+      // Hide the ball after animation completes
+      setTimeout(() => {
+        ball.style.display = 'none';
+      }, 300);
+    });
+  });
+</script>

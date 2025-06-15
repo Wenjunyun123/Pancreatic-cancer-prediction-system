@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+
+{% block title %}用户注册 - 乳腺癌预测系统{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg">
+                <div class="card-header bg-success text-white text-center py-4">
+                    <h3 class="mb-0">
+                        <i class="fas fa-user-plus me-2"></i>
+                        用户注册
+                    </h3>
+                </div>
+                <div class="card-body p-5">
+                    <!-- 错误消息显示 -->
+                    {% if error %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        {{ error }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endif %}
+
+                    <form method="POST" action="/register" id="registerForm">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">
+                                <i class="fas fa-user me-2"></i>用户名 <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" id="username" name="username" 
+                                   placeholder="请输入用户名（3-20个字符）" required 
+                                   value="{{ request.form.username or '' }}" minlength="3" maxlength="20">
+                            <div class="form-text">用户名长度为3-20个字符，只能包含字母、数字和下划线</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">
+                                <i class="fas fa-envelope me-2"></i>邮箱地址 <span class="text-danger">*</span>
+                            </label>
+                            <input type="email" class="form-control" id="email" name="email" 
+                                   placeholder="请输入邮箱地址" required value="{{ request.form.email or '' }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="full_name" class="form-label">
+                                <i class="fas fa-id-card me-2"></i>真实姓名
+                            </label>
+                            <input type="text" class="form-control" id="full_name" name="full_name" 
+                                   placeholder="请输入真实姓名（可选）" value="{{ request.form.full_name or '' }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">
+                                <i class="fas fa-lock me-2"></i>密码 <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="password" name="password" 
+                                       placeholder="请输入密码（至少6位）" required minlength="6">
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="form-text">密码长度至少6位，建议包含字母和数字</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="confirm_password" class="form-label">
+                                <i class="fas fa-lock me-2"></i>确认密码 <span class="text-danger">*</span>
+                            </label>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" 
+                                   placeholder="请再次输入密码" required minlength="6">
+                            <div id="passwordMatch" class="form-text"></div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="role" class="form-label">
+                                <i class="fas fa-user-tag me-2"></i>用户类型
+                            </label>
+                            <select class="form-select" id="role" name="role">
+                                <option value="patient" {{ 'selected' if request.form.role == 'patient' else '' }}>患者</option>
+                                <option value="doctor" {{ 'selected' if request.form.role == 'doctor' else '' }}>医生</option>
+                                <option value="researcher" {{ 'selected' if request.form.role == 'researcher' else '' }}>研究人员</option>
+                                <option value="other" {{ 'selected' if request.form.role == 'other' else '' }}>其他</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="agree_terms" name="agree_terms" required>
+                            <label class="form-check-label" for="agree_terms">
+                                我已阅读并同意 <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">服务条款</a> 和 <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">隐私政策</a>
+                            </label>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg" id="submitBtn">
+                                <i class="fas fa-user-plus me-2"></i>注册账户
+                            </button>
+                        </div>
+                    </form>
+
+                    <hr class="my-4">
+
+                    <div class="text-center">
+                        <p class="mb-2">已有账户？</p>
+                        <a href="/login" class="btn btn-outline-primary">
+                            <i class="fas fa-sign-in-alt me-2"></i>立即登录
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 服务条款模态框 -->
+<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="termsModalLabel">服务条款</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6>1. 服务说明</h6>
+                <p>本系统仅供医学研究和辅助诊断使用，不能替代专业医生的诊断。</p>
+                
+                <h6>2. 用户责任</h6>
+                <p>用户应确保输入数据的准确性，并理解预测结果仅供参考。</p>
+                
+                <h6>3. 免责声明</h6>
+                <p>系统开发者不对预测结果的准确性承担法律责任。</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 隐私政策模态框 -->
+<div class="modal fade" id="privacyModal" tabindex="-1" aria-labelledby="privacyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="privacyModalLabel">隐私政策</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6>1. 信息收集</h6>
+                <p>我们只收集必要的用户信息和预测数据。</p>
+                
+                <h6>2. 信息使用</h6>
+                <p>用户信息仅用于系统功能实现，不会用于其他商业目的。</p>
+                
+                <h6>3. 信息保护</h6>
+                <p>我们采用适当的技术措施保护用户信息安全。</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// 密码显示/隐藏切换
+document.getElementById('togglePassword').addEventListener('click', function() {
+    const password = document.getElementById('password');
+    const icon = this.querySelector('i');
+    
+    if (password.type === 'password') {
+        password.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        password.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+});
+
+// 密码确认验证
+document.getElementById('confirm_password').addEventListener('input', function() {
+    const password = document.getElementById('password').value;
+    const confirmPassword = this.value;
+    const matchDiv = document.getElementById('passwordMatch');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    if (confirmPassword === '') {
+        matchDiv.textContent = '';
+        matchDiv.className = 'form-text';
+        return;
+    }
+    
+    if (password === confirmPassword) {
+        matchDiv.textContent = '✓ 密码匹配';
+        matchDiv.className = 'form-text text-success';
+        submitBtn.disabled = false;
+    } else {
+        matchDiv.textContent = '✗ 密码不匹配';
+        matchDiv.className = 'form-text text-danger';
+        submitBtn.disabled = true;
+    }
+});
+
+// 用户名验证
+document.getElementById('username').addEventListener('input', function() {
+    const username = this.value;
+    const pattern = /^[a-zA-Z0-9_]{3,20}$/;
+    
+    if (username && !pattern.test(username)) {
+        this.setCustomValidity('用户名只能包含字母、数字和下划线，长度3-20个字符');
+    } else {
+        this.setCustomValidity('');
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %}用户登录 - 乳腺癌预测系统{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h3 class="mb-0">
+                        <i class="fas fa-sign-in-alt me-2"></i>
+                        用户登录
+                    </h3>
+                </div>
+                <div class="card-body p-5">
+                    <!-- 错误消息显示 -->
+                    {% if error %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        {{ error }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endif %}
+
+                    <!-- 成功消息显示 -->
+                    {% if success %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="fas fa-check-circle me-2"></i>
+                        {{ success }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endif %}
+
+                    <form method="POST" action="/login">
+                        <div class="mb-4">
+                            <label for="username" class="form-label">
+                                <i class="fas fa-user me-2"></i>用户名
+                            </label>
+                            <input type="text" class="form-control form-control-lg" id="username" name="username" 
+                                   placeholder="请输入用户名" required value="{{ request.form.username or '' }}">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password" class="form-label">
+                                <i class="fas fa-lock me-2"></i>密码
+                            </label>
+                            <div class="input-group">
+                                <input type="password" class="form-control form-control-lg" id="password" name="password" 
+                                       placeholder="请输入密码" required>
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="mb-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                            <label class="form-check-label" for="remember">
+                                记住我
+                            </label>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-sign-in-alt me-2"></i>登录
+                            </button>
+                        </div>
+                    </form>
+
+                    <hr class="my-4">
+
+                    <div class="text-center">
+                        <p class="mb-2">还没有账户？</p>
+                        <a href="/register" class="btn btn-outline-primary">
+                            <i class="fas fa-user-plus me-2"></i>立即注册
+                        </a>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <small class="text-muted">
+                            <i class="fas fa-shield-alt me-1"></i>
+                            您的信息将被安全保护
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 演示账户信息 -->
+            <div class="card mt-4">
+                <div class="card-header bg-info text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>演示账户
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2"><strong>用户名：</strong> demo</p>
+                    <p class="mb-0"><strong>密码：</strong> demo123</p>
+                    <small class="text-muted">您可以使用此账户快速体验系统功能</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// 密码显示/隐藏切换
+document.getElementById('togglePassword').addEventListener('click', function() {
+    const password = document.getElementById('password');
+    const icon = this.querySelector('i');
+    
+    if (password.type === 'password') {
+        password.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        password.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+});
+</script>
+{% endblock %}

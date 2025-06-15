@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+
+{% block title %}个人资料 - 乳腺癌预测系统{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- 面包屑导航 -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">首页</a></li>
+            <li class="breadcrumb-item active" aria-current="page">个人资料</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <!-- 用户信息卡片 -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white py-3">
+                    <h4 class="mb-0">
+                        <i class="fas fa-user me-2"></i>
+                        个人资料
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">用户名</label>
+                            <p class="form-control-plaintext">{{ user.username }}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">邮箱地址</label>
+                            <p class="form-control-plaintext">{{ user.email }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">真实姓名</label>
+                            <p class="form-control-plaintext">{{ user.full_name or '未设置' }}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">用户类型</label>
+                            <p class="form-control-plaintext">
+                                {% if user.role == 'patient' %}
+                                    <span class="badge bg-info">患者</span>
+                                {% elif user.role == 'doctor' %}
+                                    <span class="badge bg-success">医生</span>
+                                {% elif user.role == 'researcher' %}
+                                    <span class="badge bg-warning">研究人员</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">其他</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">注册时间</label>
+                            <p class="form-control-plaintext">
+                                {{ user.created_at[:10] if user.created_at else '未知' }}
+                            </p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">最后登录</label>
+                            <p class="form-control-plaintext">
+                                {% if user.last_login %}
+                                    {{ user.last_login[:10] }}
+                                {% else %}
+                                    首次登录
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 使用统计卡片 -->
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white py-3">
+                    <h5 class="mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>
+                        使用统计
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-4 mb-3">
+                            <div class="stat-item">
+                                <i class="fas fa-calculator fa-2x text-primary mb-2"></i>
+                                <h4 class="mb-1">{{ user.prediction_count or 0 }}</h4>
+                                <p class="text-muted mb-0">预测次数</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="stat-item">
+                                <i class="fas fa-calendar-alt fa-2x text-success mb-2"></i>
+                                <h4 class="mb-1">
+                                    {% if user.created_at %}
+                                        {{ ((user.last_login or user.created_at)[:10] | strptime('%Y-%m-%d') - user.created_at[:10] | strptime('%Y-%m-%d')).days + 1 }}
+                                    {% else %}
+                                        1
+                                    {% endif %}
+                                </h4>
+                                <p class="text-muted mb-0">使用天数</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="stat-item">
+                                <i class="fas fa-star fa-2x text-warning mb-2"></i>
+                                <h4 class="mb-1">
+                                    {% if user.role == 'doctor' %}
+                                        专业版
+                                    {% elif user.role == 'researcher' %}
+                                        研究版
+                                    {% else %}
+                                        标准版
+                                    {% endif %}
+                                </h4>
+                                <p class="text-muted mb-0">账户类型</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 快速操作 -->
+            <div class="card mb-4">
+                <div class="card-header bg-secondary text-white py-3">
+                    <h5 class="mb-0">
+                        <i class="fas fa-tools me-2"></i>
+                        快速操作
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <a href="/predict-form" class="btn btn-primary btn-lg w-100">
+                                <i class="fas fa-calculator me-2"></i>
+                                开始新预测
+                            </a>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <a href="/history" class="btn btn-info btn-lg w-100">
+                                <i class="fas fa-history me-2"></i>
+                                查看预测历史
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <a href="/params-info" class="btn btn-outline-secondary btn-lg w-100">
+                                <i class="fas fa-info-circle me-2"></i>
+                                参数说明
+                            </a>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <button class="btn btn-outline-warning btn-lg w-100" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                                <i class="fas fa-key me-2"></i>
+                                修改密码
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 账户安全提示 -->
+            <div class="alert alert-info">
+                <i class="fas fa-shield-alt me-2"></i>
+                <strong>安全提示：</strong>
+                为了保护您的账户安全，请定期修改密码，不要在公共设备上保存登录状态。
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 修改密码模态框 -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changePasswordModalLabel">修改密码</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="/change-password">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="old_password" class="form-label">当前密码</label>
+                        <input type="password" class="form-control" id="old_password" name="old_password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new_password" class="form-label">新密码</label>
+                        <input type="password" class="form-control" id="new_password" name="new_password" required minlength="6">
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirm_new_password" class="form-label">确认新密码</label>
+                        <input type="password" class="form-control" id="confirm_new_password" name="confirm_new_password" required minlength="6">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-warning">修改密码</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+.stat-item {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: #f8f9fa;
+}
+
+.stat-item:hover {
+    background-color: #e9ecef;
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+</style>
+{% endblock %}

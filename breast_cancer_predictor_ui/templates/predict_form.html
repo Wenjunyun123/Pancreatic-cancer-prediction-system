@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+{% extends 'base.html' %}
+
+{% block title %}乳腺癌预测 - 参数输入{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- 面包屑导航 -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">首页</a></li>
+            <li class="breadcrumb-item active" aria-current="page">参数输入</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card mb-5">
+                <div class="card-header bg-primary text-white py-3">
+                    <h4 class="mb-0"><i class="fas fa-clipboard-list me-2"></i> 乳腺癌预测参数输入</h4>
+                </div>
+                <div class="card-body">
+                    <p class="mb-4">请填写以下表单中的所有字段，这些参数来自患者的细胞核特征测量。系统将基于这些参数预测肿瘤的良恶性。</p>
+
+                    <!-- 错误消息显示 -->
+                    {% if error %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>错误：</strong> {{ error }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endif %}
+
+                    <!-- 步骤导航 -->
+                    <div class="row steps-container mb-4">
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <div class="step-item active text-center" data-step="#mean-features">
+                                <i class="fas fa-chart-line me-2"></i> 均值特征
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <div class="step-item text-center" data-step="#se-features">
+                                <i class="fas fa-exclamation-circle me-2"></i> 标准误差特征
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="step-item text-center" data-step="#worst-features">
+                                <i class="fas fa-chart-bar me-2"></i> 极值特征
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 预测表单 -->
+                    <form id="prediction-form" action="/predict" method="post">
+                        <!-- 第一组：均值特征 -->
+                        <div id="mean-features" class="param-group active">
+                            <h5 class="mb-3">均值特征 <small class="text-muted">（细胞核测量的平均值）</small></h5>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="value1" class="form-label">
+                                        半径均值
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="从中心到周边点的距离的平均值"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value1" name="value1" placeholder="例：15.2" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="value2" class="form-label">
+                                        纹理均值
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="灰度值的标准偏差"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value2" name="value2" placeholder="例：20.5" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="value3" class="form-label">
+                                        周长均值
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="细胞核周长的平均值"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value3" name="value3" placeholder="例：100.2" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="value4" class="form-label">
+                                        面积均值
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="细胞核面积的平均值"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value4" name="value4" placeholder="例：650.5" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="value5" class="form-label">
+                                        平滑度均值
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="半径长度的局部变化"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value5" name="value5" placeholder="例：0.1" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="value6" class="form-label">
+                                        紧密度均值
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="周长的平方除以面积减1.0"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value6" name="value6" placeholder="例：0.15" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="value7" class="form-label">
+                                        凹度均值
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="轮廓凹陷的严重程度"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value7" name="value7" placeholder="例：0.08" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="value8" class="form-label">
+                                        凹点均值
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="轮廓上凹陷点的数量"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value8" name="value8" placeholder="例：0.05" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="value9" class="form-label">
+                                        对称性均值
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="细胞核对称程度"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value9" name="value9" placeholder="例：0.18" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="value10" class="form-label">
+                                        分形维数均值
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="海岸线"近似值 - 测量轮廓的复杂性"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value10" name="value10" placeholder="例：0.07" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-end mt-4">
+                                <button type="button" class="btn btn-primary btn-next-step">下一步 <i class="fas fa-arrow-right ms-2"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- 第二组：标准误差特征 -->
+                        <div id="se-features" class="param-group">
+                            <h5 class="mb-3">标准误差特征 <small class="text-muted">（细胞核测量的标准误差）</small></h5>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="value11" class="form-label">
+                                        半径标准误差
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="从中心到周边点的距离的标准误差"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value11" name="value11" placeholder="例：0.5" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="value12" class="form-label">
+                                        纹理标准误差
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="灰度值的标准误差"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value12" name="value12" placeholder="例：1.2" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="value13" class="form-label">
+                                        周长标准误差
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="细胞核周长的标准误差"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value13" name="value13" placeholder="例：3.4" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="value14" class="form-label">
+                                        面积标准误差
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="细胞核面积的标准误差"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value14" name="value14" placeholder="例：25.5" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="value15" class="form-label">
+                                        平滑度标准误差
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="半径长度的局部变化的标准误差"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value15" name="value15" placeholder="例：0.01" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="value16" class="form-label">
+                                        紧密度标准误差
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="紧密度的标准误差"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value16" name="value16" placeholder="例：0.02" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="value17" class="form-label">
+                                        凹度标准误差
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="轮廓凹陷的标准误差"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value17" name="value17" placeholder="例：0.01" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="value18" class="form-label">
+                                        凹点标准误差
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="轮廓上凹陷点的标准误差"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value18" name="value18" placeholder="例：0.005" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="value19" class="form-label">
+                                        对称性标准误差
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="细胞核对称程度的标准误差"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value19" name="value19" placeholder="例：0.02" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="value20" class="form-label">
+                                        分形维数标准误差
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="分形维数的标准误差"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value20" name="value20" placeholder="例：0.003" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-outline-secondary btn-prev-step"><i class="fas fa-arrow-left me-2"></i> 上一步</button>
+                                <button type="button" class="btn btn-primary btn-next-step">下一步 <i class="fas fa-arrow-right ms-2"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- 第三组：极值特征 -->
+                        <div id="worst-features" class="param-group">
+                            <h5 class="mb-3">极值特征 <small class="text-muted">（各细胞核中的极值）</small></h5>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="value21" class="form-label">
+                                        半径极值
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="从中心到周边点的距离的极值（最差值）"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value21" name="value21" placeholder="例：18.2" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="value22" class="form-label">
+                                        纹理极值
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="灰度值的极值"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value22" name="value22" placeholder="例：25.5" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="value23" class="form-label">
+                                        周长极值
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="细胞核周长的极值"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value23" name="value23" placeholder="例：120.2" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="value24" class="form-label">
+                                        面积极值
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="细胞核面积的极值"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value24" name="value24" placeholder="例：750.5" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="value25" class="form-label">
+                                        平滑度极值
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="半径长度的局部变化的极值"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value25" name="value25" placeholder="例：0.15" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="value26" class="form-label">
+                                        紧密度极值
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="紧密度的极值"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value26" name="value26" placeholder="例：0.25" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="value27" class="form-label">
+                                        凹度极值
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="轮廓凹陷的极值"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value27" name="value27" placeholder="例：0.15" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="value28" class="form-label">
+                                        凹点极值
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="轮廓上凹陷点的极值"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value28" name="value28" placeholder="例：0.1" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="value29" class="form-label">
+                                        对称性极值
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="细胞核对称程度的极值"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value29" name="value29" placeholder="例：0.3" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="value30" class="form-label">
+                                        分形维数极值
+                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="分形维数的极值"></i>
+                                    </label>
+                                    <input type="text" class="form-control" id="value30" name="value30" placeholder="例：0.1" required>
+                                    <div class="invalid-feedback">请输入有效数值</div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-outline-secondary btn-prev-step"><i class="fas fa-arrow-left me-2"></i> 上一步</button>
+                                <button type="submit" id="submit-btn" class="btn btn-success">
+                                    <i class="fas fa-check-circle me-2"></i> 提交预测
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 数据样本参考卡片 -->
+            <div class="card mb-5">
+                <div class="card-header bg-info text-white py-3">
+                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i> 样本数据参考</h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-3">如果您需要测试系统，可以使用以下样本数据：</p>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-header info-card benign py-2">
+                                    良性样本数据
+                                </div>
+                                <div class="card-body">
+                                    <small>
+                                        半径均值: 13.54, 纹理均值: 14.36, 周长均值: 87.46, 面积均值: 566.3, 平滑度均值: 0.09779, 紧密度均值: 0.08129, 凹度均值: 0.06664, 凹点均值: 0.04781, 对称性均值: 0.1885, 分形维数均值: 0.05766<br><br>
+                                        半径SE: 0.2031, 纹理SE: 0.9861, 周长SE: 1.809, 面积SE: 33.5, 平滑度SE: 0.00126, 紧密度SE: 0.01291, 凹度SE: 0.01881, 凹点SE: 0.01252, 对称性SE: 0.01619, 分形维数SE: 0.003142<br><br>
+                                        半径极值: 15.11, 纹理极值: 19.26, 周长极值: 99.7, 面积极值: 711.2, 平滑度极值: 0.144, 紧密度极值: 0.1773, 凹度极值: 0.239, 凹点极值: 0.1288, 对称性极值: 0.2977, 分形维数极值: 0.07259
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-header info-card malignant py-2">
+                                    恶性样本数据
+                                </div>
+                                <div class="card-body">
+                                    <small>
+                                        半径均值: 18.25, 纹理均值: 19.98, 周长均值: 119.6, 面积均值: 1040, 平滑度均值: 0.09463, 紧密度均值: 0.109, 凹度均值: 0.1127, 凹点均值: 0.074, 对称性均值: 0.1794, 分形维数均值: 0.05742<br><br>
+                                        半径SE: 0.4334, 纹理SE: 1.169, 周长SE: 3.029, 面积SE: 60.36, 平滑度SE: 0.006361, 紧密度SE: 0.01911, 凹度SE: 0.02639, 凹点SE: 0.01386, 对称性SE: 0.01721, 分形维数SE: 0.002749<br><br>
+                                        半径极值: 20.2, 纹理极值: 24.49, 周长极值: 134.7, 面积极值: 1245, 平滑度极值: 0.1189, 紧密度极值: 0.1879, 凹度极值: 0.2238, 凹点极值: 0.1275, 对称性极值: 0.241, 分形维数极值: 0.06743
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+<div id="minimax-floating-ball">
+  <div class="minimax-ball-content">
+    <div class="minimax-logo-wave"></div>
+    <span class="minimax-ball-text">Created by MiniMax Agent</span>
+  </div>
+  <div class="minimax-close-icon">&times;</div>
+</div>
+<style>
+  #minimax-floating-ball {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 12px;
+    background: #222222;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    color: #F8F8F8;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    z-index: 9999;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  #minimax-floating-ball:hover {
+    transform: translateY(-2px);
+    background: #383838;
+  }
+
+  .minimax-ball-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .minimax-logo-wave {
+    width: 26px;
+    height: 22px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='22' viewBox='0 0 26 22' fill='none'%3E%3Cg clip-path='url(%23clip0_3442_102412)'%3E%3Cpath d='M12.8405 14.6775C12.8405 14.9897 13.0932 15.2424 13.4055 15.2424C13.7178 15.2424 13.9705 14.9897 13.9705 14.6775V2.98254C13.9705 1.88957 13.0809 1 11.9879 1C10.895 1 10.0054 1.88957 10.0054 2.98254V11.566V17.1068C10.0054 17.5773 9.62327 17.9594 9.1528 17.9594C8.68233 17.9594 8.30021 17.5773 8.30021 17.1068V8.04469C8.30021 6.95172 7.41063 6.06215 6.31767 6.06215C5.22471 6.06215 4.33513 6.95172 4.33513 8.04469V11.8855C4.33513 12.3559 3.953 12.7381 3.48254 12.7381C3.01207 12.7381 2.62994 12.3559 2.62994 11.8855V10.4936C2.62994 10.1813 2.37725 9.92861 2.06497 9.92861C1.7527 9.92861 1.5 10.1813 1.5 10.4936V11.8855C1.5 12.9784 2.38957 13.868 3.48254 13.868C4.5755 13.868 5.46508 12.9784 5.46508 11.8855V8.04469C5.46508 7.57422 5.8472 7.19209 6.31767 7.19209C6.78814 7.19209 7.17026 7.57422 7.17026 8.04469V17.1068C7.17026 18.1998 8.05984 19.0894 9.1528 19.0894C10.2458 19.0894 11.1353 18.1998 11.1353 17.1068V2.98254C11.1353 2.51207 11.5175 2.12994 11.9879 2.12994C12.4584 2.12994 12.8405 2.51207 12.8405 2.98254V14.6775Z' fill='%23F8F8F8'/%3E%3Cpath d='M23.3278 6.06215C22.2348 6.06215 21.3452 6.95172 21.3452 8.04469V15.6143C21.3452 16.0847 20.9631 16.4669 20.4926 16.4669C20.0222 16.4669 19.6401 16.0847 19.6401 15.6143V2.98254C19.6401 1.88957 18.7505 1 17.6575 1C16.5645 1 15.675 1.88957 15.675 2.98254V19.0175C15.675 19.4879 15.2928 19.8701 14.8224 19.8701C14.3519 19.8701 13.9698 19.4879 13.9698 19.0175V17.0329C13.9698 16.7206 13.7171 16.4679 13.4048 16.4679C13.0925 16.4679 12.8398 16.7206 12.8398 17.0329V19.0175C12.8398 20.1104 13.7294 21 14.8224 21C15.9153 21 16.8049 20.1104 16.8049 19.0175V2.98254C16.8049 2.51207 17.187 2.12994 17.6575 2.12994C18.128 2.12994 18.5101 2.51207 18.5101 2.98254V15.6143C18.5101 16.7072 19.3997 17.5968 20.4926 17.5968C21.5856 17.5968 22.4752 16.7072 22.4752 15.6143V8.04469C22.4752 7.57422 22.8573 7.19209 23.3278 7.19209C23.7982 7.19209 24.1804 7.57422 24.1804 8.04469V14.6775C24.1804 14.9897 24.4331 15.2424 24.7453 15.2424C25.0576 15.2424 25.3103 14.9897 25.3103 14.6775V8.04469C25.3103 6.95172 24.4207 6.06215 23.3278 6.06215Z' fill='%23F8F8F8'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_3442_102412'%3E%3Crect width='25' height='22' fill='white' transform='translate(0.5)'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .minimax-ball-text {
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .minimax-close-icon {
+    margin-left: 8px;
+    font-size: 16px;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+  }
+
+  .minimax-close-icon:hover {
+    opacity: 1;
+  }
+</style>
+<script>
+  // Add simple animation when the page loads
+  document.addEventListener('DOMContentLoaded', function() {
+    const ball = document.getElementById('minimax-floating-ball');
+    ball.style.opacity = '0';
+    ball.style.transform = 'translateY(20px)';
+
+    setTimeout(() => {
+      ball.style.opacity = '1';
+      ball.style.transform = 'translateY(0)';
+    }, 500);
+
+    // Handle logo click
+    const ballContent = ball.querySelector('.minimax-ball-content');
+    ballContent.addEventListener('click', function(e) {
+      e.stopPropagation();
+      window.open('https://agent.minimax.io/agent', '_blank');
+      ball.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        ball.style.transform = 'scale(1)';
+      }, 100);
+    });
+
+    // Handle close button click
+    const closeIcon = ball.querySelector('.minimax-close-icon');
+    closeIcon.addEventListener('click', function(e) {
+      e.stopPropagation();
+      ball.style.opacity = '0';
+      ball.style.transform = 'translateY(20px)';
+
+      // Hide the ball after animation completes
+      setTimeout(() => {
+        ball.style.display = 'none';
+      }, 300);
+    });
+  });
+</script>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+{% extends 'base.html' %}
+
+{% block title %}乳腺癌预测 - 关于项目{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- 面包屑导航 -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">首页</a></li>
+            <li class="breadcrumb-item active" aria-current="page">关于项目</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <!-- 项目介绍 -->
+            <div class="card mb-5">
+                <div class="card-header bg-primary text-white py-3">
+                    <h4 class="mb-0"><i class="fas fa-project-diagram me-2"></i> 项目介绍</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row align-items-center mb-4">
+                        <div class="col-md-4 text-center mb-4 mb-md-0">
+                            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="乳腺癌预测系统" class="img-fluid" style="max-width: 200px;">
+                        </div>
+                        <div class="col-md-8">
+                            <h5>乳腺癌预测系统</h5>
+                            <p>乳腺癌预测系统是一个基于机器学习技术的医疗辅助工具，旨在帮助医疗专业人员快速、准确地预测乳腺肿瘤的良恶性。系统基于30个细胞核特征参数，使用随机森林算法进行预测，准确率超过95%。</p>
+                            <p>该系统不能替代专业医生的诊断，但可以作为一个有价值的辅助工具，帮助医生进行初步筛查和决策支持。</p>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <h5 class="mb-3">项目目标</h5>
+                    <ul>
+                        <li>提供一个用户友好的界面，使医疗专业人员能够轻松输入参数并获取预测结果</li>
+                        <li>利用机器学习技术，提高乳腺癌诊断的准确性和效率</li>
+                        <li>通过详细的参数解释和结果可视化，提高预测结果的可解释性</li>
+                        <li>作为医疗决策辅助工具，帮助医生更早地发现潜在的恶性肿瘤</li>
+                    </ul>
+                    
+                    <h5 class="mb-3 mt-4">技术栈</h5>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title"><i class="fas fa-server me-2 text-primary"></i> 后端</h6>
+                                    <ul class="list-unstyled">
+                                        <li>Python</li>
+                                        <li>Flask Web 框架</li>
+                                        <li>scikit-learn 机器学习库</li>
+                                        <li>NumPy 和 Pandas 数据处理</li>
+                                        <li>Joblib 模型序列化</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title"><i class="fas fa-laptop-code me-2 text-primary"></i> 前端</h6>
+                                    <ul class="list-unstyled">
+                                        <li>HTML5 / CSS3</li>
+                                        <li>JavaScript</li>
+                                        <li>Bootstrap 5 响应式框架</li>
+                                        <li>Chart.js 数据可视化</li>
+                                        <li>Font Awesome 图标</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title"><i class="fas fa-brain me-2 text-primary"></i> 机器学习</h6>
+                                    <ul class="list-unstyled">
+                                        <li>随机森林分类算法</li>
+                                        <li>特征缩放</li>
+                                        <li>交叉验证</li>
+                                        <li>标准化与编码</li>
+                                        <li>模型评估与持久化</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 数据集信息 -->
+            <div class="card mb-5">
+                <div class="card-header bg-info text-white py-3">
+                    <h4 class="mb-0"><i class="fas fa-database me-2"></i> 数据集信息</h4>
+                </div>
+                <div class="card-body">
+                    <p>本项目使用的是威斯康星乳腺癌诊断(WDBC)数据集，这是一个广泛用于机器学习研究的公开数据集。</p>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-6 mb-4">
+                            <h5>数据集特点</h5>
+                            <ul>
+                                <li>包含569个样本（良性357例，恶性212例）</li>
+                                <li>每个样本有30个特征值</li>
+                                <li>特征是从乳腺细胞核的数字图像中提取的</li>
+                                <li>包括细胞半径、纹理、周长、面积等特征</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>数据收集方法</h5>
+                            <p>数据收集过程如下：</p>
+                            <ol>
+                                <li>使用细针抽吸(FNA)从乳房肿块获取细胞样本</li>
+                                <li>制作细胞学图像</li>
+                                <li>通过数字图像处理技术识别细胞核</li>
+                                <li>计算每个细胞核的特征值</li>
+                                <li>对每个患者样本计算特征的平均值、标准误差和极值</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-warning mt-4">
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <i class="fas fa-exclamation-triangle fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5>数据隐私声明</h5>
+                                <p class="mb-0">所有患者信息已匿名化处理，不包含任何可识别个人身份的信息。数据仅用于科研和教育目的。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 模型性能 -->
+            <div class="card mb-5">
+                <div class="card-header bg-success text-white py-3">
+                    <h4 class="mb-0"><i class="fas fa-chart-line me-2"></i> 模型性能</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-7 mb-4 mb-md-0">
+                            <h5 class="mb-3">随机森林模型</h5>
+                            <p>本系统使用随机森林分类算法，这是一种集成学习方法，通过构建多个决策树并输出最终分类结果来进行预测。</p>
+                            <h6 class="mt-4">模型优势：</h6>
+                            <ul>
+                                <li>高准确率 (>95%)</li>
+                                <li>对过拟合的抵抗力强</li>
+                                <li>能够处理高维数据</li>
+                                <li>能够评估特征重要性</li>
+                                <li>训练速度快，预测效率高</li>
+                            </ul>
+                            
+                            <h6 class="mt-4">模型评估指标：</h6>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>指标</th>
+                                            <th>值</th>
+                                            <th>说明</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>准确率 (Accuracy)</td>
+                                            <td>0.96</td>
+                                            <td>正确预测的样本比例</td>
+                                        </tr>
+                                        <tr>
+                                            <td>精确率 (Precision)</td>
+                                            <td>0.94</td>
+                                            <td>预测为恶性的样本中真正恶性的比例</td>
+                                        </tr>
+                                        <tr>
+                                            <td>召回率 (Recall)</td>
+                                            <td>0.93</td>
+                                            <td>真正恶性样本中被正确预测的比例</td>
+                                        </tr>
+                                        <tr>
+                                            <td>F1得分</td>
+                                            <td>0.94</td>
+                                            <td>精确率和召回率的调和平均值</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="card h-100 bg-light">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-4">预测准确率</h5>
+                                    <div class="display-1 fw-bold text-success mb-3">95%+</div>
+                                    <p class="card-text">在测试数据集上的表现</p>
+                                    <hr>
+                                    <div class="mt-4">
+                                        <h6>算法配置</h6>
+                                        <ul class="list-unstyled">
+                                            <li>决策树数量: 100</li>
+                                            <li>特征选择: 所有30个特征</li>
+                                            <li>训练/测试集划分: 80% / 20%</li>
+                                            <li>预处理: 标准化缩放</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 联系与反馈 -->
+            <div class="card mb-5">
+                <div class="card-header bg-secondary text-white py-3">
+                    <h4 class="mb-0"><i class="fas fa-envelope me-2"></i> 联系与反馈</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-4 mb-md-0">
+                            <h5>原项目作者</h5>
+                            <p>Sri Manikanta</p>
+                            <p><i class="fas fa-globe me-2"></i> <a href="https://github.com/srimani-programmer/Breast-Cancer-Predictor" target="_blank">GitHub项目页面</a></p>
+                            
+                            <h5 class="mt-4">使用许可</h5>
+                            <p>本项目遵循 MIT 许可证</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>项目贡献</h5>
+                            <p>欢迎对本项目进行贡献：</p>
+                            <ul>
+                                <li>提交错误报告</li>
+                                <li>提出功能建议</li>
+                                <li>改进文档</li>
+                                <li>提交代码改进</li>
+                            </ul>
+                            
+                            <div class="alert alert-info mt-3">
+                                <i class="fas fa-info-circle me-2"></i> 本项目仅用于教育和研究目的，不应作为临床诊断的唯一依据。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

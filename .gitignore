@@ -1,0 +1,28 @@
+# Virtual Environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Logs
+*.log
+
+# IDE / Editor specific files
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Secrets (if any, add specific file names)
+# e.g. config_secret.py
+
+# Data files (if large or sensitive and not meant for repo)
+# Breast Cancer Data.csv # 取决于您是否希望将其包含在仓库中
+
+# User-specific files
+users.json # 通常用户数据不应提交到公共仓库
